@@ -1,7 +1,9 @@
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { View } from 'react-native';
 import { CONCEPTS, LANGS, LANG_SHORT, LEVELS, byId } from '../data';
 import { codeOf, langName, langOf } from '../code';
+import { fullProgram, howToRun } from '../program';
+import { ExplainCode } from '../components/ExplainCode';
 import { useLearned } from '../plan';
 import { space, useTheme } from '../theme';
 import { Badge, Btn, Callout, Card, Chip, ChipRow, CodeBlock, Field, Header, Icon, List, Page, Row, Section, Segmented, StepTile, T, s } from '../components/ui';
@@ -121,7 +123,7 @@ export function ConceptScreen({ nav, id, lang, setLang }) {
       {!x.code.sql && <LangSwitch lang={lang} setLang={setLang} />}
       <Callout tone="good" icon="check-circle" title="Use it when">{x.use}</Callout>
       <Callout tone="bad" icon="alert-triangle" title="Watch out">{x.warn}</Callout>
-      <CodeBlock code={codeOf(x, lang)} lang={l} />
+      <CodeView x={x} lang={lang} l={l} />
       {x.code.sql ? (
         <T v="small" color={c.muted}>SQL is the same whichever language you picked.</T>
       ) : l !== lang ? (
@@ -155,5 +157,50 @@ export function ConceptScreen({ nav, id, lang, setLang }) {
         </View>
       </Card>
     </Page>
+  );
+}
+
+// The code with a Snippet / Full program switch, tap-to-explain lines, and how to run it.
+function CodeView({ x, lang, l }) {
+  const c = useTheme();
+  const [view, setView] = useState('snippet');
+  const snippet = codeOf(x, lang);
+  const full = useMemo(() => fullProgram(snippet, l), [snippet, l]);
+  const wraps = full.code !== snippet;
+  useEffect(() => { setView('snippet'); }, [x.id]);
+  const steps = howToRun(l, full.kind);
+  return (
+    <View style={{ gap: space.md }}>
+      {wraps && (
+        <Segmented
+          full
+          value={view}
+          onChange={setView}
+          options={[
+            { value: 'snippet', label: 'Just the idea' },
+            { value: 'full', label: 'Full program' },
+          ]}
+        />
+      )}
+      {view === 'full' && wraps && (
+        <T v="small" color={c.muted}>
+          {full.kind === 'forms'
+            ? 'This is the whole Form1.cs file. The highlighted idea sits inside the form class.'
+            : 'Everything a real file needs around the idea: the using lines, the class and the Main method where the program starts.'}
+        </T>
+      )}
+      <ExplainCode code={view === 'full' && wraps ? full.code : snippet} lang={l} />
+      {steps.length > 0 && (view === 'full' || !wraps) && (
+        <Card style={{ gap: space.sm }}>
+          <T v="h3">How to run it</T>
+          {steps.map((t, i) => (
+            <View key={i} style={{ flexDirection: 'row', gap: space.md }}>
+              <T v="bodyStrong" color={c.accent} style={{ width: 16 }}>{i + 1}</T>
+              <T v="body" style={{ flex: 1 }}>{t}</T>
+            </View>
+          ))}
+        </Card>
+      )}
+    </View>
   );
 }

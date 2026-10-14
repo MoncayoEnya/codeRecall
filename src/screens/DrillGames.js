@@ -5,6 +5,7 @@ import { lineDiff, langName } from '../code';
 import { record } from '../review';
 import { mono, radius, space, type, useTheme } from '../theme';
 import { Badge, Btn, Callout, Chip, ChipRow, Field, T, s } from '../components/ui';
+import { Coach } from '../components/ExplainCode';
 import { genBugs, genWrites } from '../ai';
 import { AiError, AiLoading, AiNote, NeedsKey, SourceSwitch, useAiBatch, useSource } from './AiSource';
 
@@ -56,6 +57,8 @@ export function WriteCard({ item, nav, onResult, onNext }) {
   const c = useTheme();
   const [code, setCode] = useState('');
   const [result, setResult] = useState(null);
+  const [cursor, setCursor] = useState(0);
+  const lineIdx = code.slice(0, cursor).split('\n').length - 1;
 
   const check = (gaveUp) => {
     const d = lineDiff(item.answer, gaveUp ? '' : code);
@@ -78,10 +81,19 @@ export function WriteCard({ item, nav, onResult, onNext }) {
         multiline
         value={code}
         onChangeText={(t) => { setCode(t); if (result) setResult(null); }}
+        onSelectionChange={(e) => setCursor(e.nativeEvent.selection.start)}
         placeholder="Write it here without looking anything up."
         accessibilityLabel="Your code"
         style={{ minHeight: 220, backgroundColor: c.codeBg }}
       />
+      {!result && (
+        <Coach
+          line={code.split('\n')[lineIdx]}
+          lineNo={lineIdx + 1}
+          empty="Start writing. I'll explain each line you write, so you can tell if it does what you meant."
+          unknown="I can't explain this line. If it's finished, check the spelling and brackets, or ask the tutor."
+        />
+      )}
       <View style={s.row}>
         <Btn kind="primary" title="Check my code" onPress={() => check(false)} disabled={!code.trim()} />
         <Btn title="Show the answer" onPress={() => check(true)} />

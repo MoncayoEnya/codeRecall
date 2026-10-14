@@ -47,7 +47,7 @@ const dark = {
   tabBar: '#14171C',
 };
 
-// Figtree for the interface, JetBrains Mono only for code.
+// Figtree for the interface, IBM Plex Mono only for code (no ligatures, so != and => look exactly as you type them).
 export const font = {
   regular: 'Figtree_400Regular',
   medium: 'Figtree_500Medium',
@@ -55,8 +55,8 @@ export const font = {
   bold: 'Figtree_700Bold',
   heavy: 'Figtree_800ExtraBold',
 };
-export const mono = 'JetBrainsMono_400Regular';
-export const monoBold = 'JetBrainsMono_600SemiBold';
+export const mono = 'IBMPlexMono_400Regular';
+export const monoBold = 'IBMPlexMono_600SemiBold';
 
 // 4-pt spacing, two radii (controls vs. containers), one type scale.
 export const space = { xs: 4, sm: 8, md: 12, lg: 16, xl: 24, xxl: 32 };

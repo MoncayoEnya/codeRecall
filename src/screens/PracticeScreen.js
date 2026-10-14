@@ -8,6 +8,7 @@ import { load, save } from '../storage';
 import { mono, radius, space, type, useTheme } from '../theme';
 import { Badge, Btn, Callout, Card, Chip, ChipRow, CodeBlock, Header, List, Page, Row, Segmented, T, s } from '../components/ui';
 import { BugCard, BugGame, WriteCard, WriteGame } from './DrillGames';
+import { Coach } from '../components/ExplainCode';
 import { AiError, AiLoading, AiNote, NeedsKey, SourceSwitch, useAiBatch, useSource } from './AiSource';
 import { genQuestions, getAllGenerated } from '../ai';
 import { LangSwitch } from './LearnScreen';
@@ -115,6 +116,7 @@ function TypeGame({ concept, lang, onNext }) {
   const [best, setBest] = useState(null);
   const [result, setResult] = useState(null);
   const [focused, setFocused] = useState(false);
+  const [coach, setCoach] = useState(true);
   const [, tick] = useState(0);
 
   const reset = () => {
@@ -260,6 +262,14 @@ function TypeGame({ concept, lang, onNext }) {
         accessibilityLabel="Type the code here"
       />
 
+      {coach && !result && (
+        <Coach
+          line={target.split('\n')[typed.split('\n').length - 1]}
+          lineNo={typed.split('\n').length}
+          hideCode={tmode === 'memory' && !peeking}
+        />
+      )}
+
       {result ? (
         <Callout tone="good" icon="award" title={result.isBest ? 'New best' : 'Finished'}>
           {`${result.wpm} WPM with ${acc}% accuracy${tmode === 'memory' ? ` and ${peeks} peek${peeks === 1 ? '' : 's'}` : ''}. ${tmode === 'copy' ? 'Now try it from memory.' : ''}`}
@@ -278,6 +288,7 @@ function TypeGame({ concept, lang, onNext }) {
         {tmode === 'memory' && <Btn icon="eye" title="Peek" onPress={peek} disabled={peeking || !!result} />}
         <Btn icon="refresh-cw" title="Restart" onPress={() => { reset(); input.current?.focus(); }} />
         <Btn kind="ghost" title="Next topic" onPress={onNext} />
+        <Btn kind="ghost" icon="cpu" title={coach ? 'Hide coach' : 'Show coach'} onPress={() => setCoach((v) => !v)} />
       </View>
     </View>
   );

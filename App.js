@@ -4,7 +4,7 @@ import { StatusBar } from 'expo-status-bar';
 import { SafeAreaProvider, useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useFonts } from 'expo-font';
 import { Figtree_400Regular, Figtree_500Medium, Figtree_600SemiBold, Figtree_700Bold, Figtree_800ExtraBold } from '@expo-google-fonts/figtree';
-import { JetBrainsMono_400Regular, JetBrainsMono_600SemiBold } from '@expo-google-fonts/jetbrains-mono';
+import { IBMPlexMono_400Regular, IBMPlexMono_600SemiBold } from '@expo-google-fonts/ibm-plex-mono';
 import { LANGS, TEST } from './src/data';
 import { load, save } from './src/storage';
 import { ThemeProvider, space, useTheme, useThemeMode } from './src/theme';
@@ -29,7 +29,7 @@ const TABS = [
 export default function App() {
   const [loaded] = useFonts({
     Figtree_400Regular, Figtree_500Medium, Figtree_600SemiBold, Figtree_700Bold, Figtree_800ExtraBold,
-    JetBrainsMono_400Regular, JetBrainsMono_600SemiBold,
+    IBMPlexMono_400Regular, IBMPlexMono_600SemiBold,
   });
   return (
     <SafeAreaProvider>
