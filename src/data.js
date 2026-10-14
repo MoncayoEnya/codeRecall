@@ -511,7 +511,26 @@ HAVING COUNT(*) > 30;`}}
 ];
 
 // CRUD cards first (the skills test topic), then the rest with C# added.
-export const CONCEPTS=[...CRUD_CONCEPTS, ...BASE.map((c)=>(CS[c.id]?{...c,code:{...c.code,cs:CS[c.id]}}:c))];
+const ALL=[...CRUD_CONCEPTS, ...BASE.map((c)=>(CS[c.id]?{...c,code:{...c.code,cs:CS[c.id]}}:c))];
+
+// The learning path: easiest first, in the same order as the 27-day plan.
+export const LEVELS = [
+  { id: 'beginner', title: 'Beginner', desc: 'The building blocks every program uses. Start here.',
+    ids: ['for', 'while', 'dowhile', 'if', 'func', 'array', 'string'] },
+  { id: 'intermediate', title: 'Intermediate', desc: 'Objects, lists of records, and keeping bad input out. This is CRUD without a database yet.',
+    ids: ['oop', 'crudlist', 'validate', 'try', 'map', 'stack', 'recur'] },
+  { id: 'advanced', title: 'Advanced', desc: 'CRUD with a real database. This is the core of your skills test.',
+    ids: ['sqlcrud', 'dbcrud', 'grid', 'sql', 'template'] },
+  { id: 'extra', title: 'Extra: algorithms', desc: 'Searching and sorting. Less likely on a CRUD test, but common in interviews and other exams.',
+    ids: ['bsearch', 'bubble'] },
+];
+// Every topic in path order, tagged with its level and step number.
+export const CONCEPTS = (() => {
+  const out = [];
+  for (const l of LEVELS) for (const id of l.ids) { const c = ALL.find((x) => x.id === id); if (c) out.push({ ...c, level: l.id }); }
+  for (const c of ALL) if (!out.some((x) => x.id === c.id)) out.push({ ...c, level: 'extra' }); // anything added later
+  return out.map((c, i) => ({ ...c, step: i + 1 }));
+})();
 
 export const PLAN=[
  {w:"Week 1: Fundamentals in C#",days:[

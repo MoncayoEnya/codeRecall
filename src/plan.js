@@ -53,3 +53,24 @@ export function useDone() {
   };
   return [done, toggle];
 }
+
+// Topics marked as learned, shared live between screens.
+let learnedCache = null;
+const learnedListeners = new Set();
+export function useLearned() {
+  const [learned, setLearned] = useState(learnedCache || new Set());
+  useEffect(() => {
+    const fn = (s) => setLearned(s);
+    learnedListeners.add(fn);
+    if (!learnedCache) load('learned', []).then((d) => { learnedCache = new Set(d); learnedListeners.forEach((l) => l(learnedCache)); });
+    return () => learnedListeners.delete(fn);
+  }, []);
+  const toggle = (id) => {
+    const next = new Set(learnedCache || []);
+    next.has(id) ? next.delete(id) : next.add(id);
+    learnedCache = next;
+    save('learned', [...next]);
+    learnedListeners.forEach((l) => l(next));
+  };
+  return [learned, toggle];
+}

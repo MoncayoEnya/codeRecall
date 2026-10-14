@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
-import { BackHandler, Pressable, StyleSheet, View } from 'react-native';
+import { BackHandler, Image, Pressable, StyleSheet, View } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
 import { SafeAreaProvider, useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useFonts } from 'expo-font';
@@ -131,9 +131,12 @@ function Main() {
 
       {wide && (
         <View style={[st.side, { backgroundColor: c.surface, borderRightColor: c.line, paddingTop: insets.top + space.xl }]}>
-          <View style={{ paddingHorizontal: space.lg, gap: 2, marginBottom: space.xl }}>
-            <T v="h3">Code Recall</T>
-            <T v="small" color={c.muted}>{left > 0 ? `${left} days until Nov 10` : left === 0 ? 'Test day' : 'Test finished'}</T>
+          <View style={{ paddingHorizontal: space.md, flexDirection: 'row', alignItems: 'center', gap: space.md, marginBottom: space.xl }}>
+            <Image source={require('./assets/logo-mark.png')} style={{ width: 36, height: 36, borderRadius: 9 }} accessibilityIgnoresInvertColors />
+            <View>
+              <T v="h3">Code Recall</T>
+              <T v="small" color={c.muted}>{left > 0 ? `${left} days until Nov 10` : left === 0 ? 'Test day' : 'Test finished'}</T>
+            </View>
           </View>
           {TABS.map((t) => {
             const on = t.id === tab;

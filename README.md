@@ -3,7 +3,7 @@
 A study app for the BSCS skills test on **November 10, 2026**. Built with React Native + Expo.
 
 - **Plan** – 27 daily tasks (Oct 14 → Nov 9) built around the CRUD skills test: C# basics → CRUD on a list → database CRUD → timed builds
-- **Concepts** – 20 cards: *when to use it*, *watch out*, and the code in C#, Python, Java, C++ or JavaScript (plus SQL).
+- **Learn** – 21 topics in a path from Beginner → Intermediate → Advanced (database CRUD) → Extra (algorithms), in the same order as the plan. Mark topics as learned; the app shows what's up next. Each topic has *when to use it*, *watch out*, and the code in C#, Python, Java, C++ or JavaScript (plus SQL).
   CRUD cards: CRUD on a list, SQL INSERT/SELECT/UPDATE/DELETE, CRUD with a database (parameterized queries), C# WinForms grid + selected row, input validation
 - **Practice** – Type it (copy + memory mode), Fill the blanks, Predict the output, Write from scratch (line-by-line check), Bug hunt (tap the broken line), Review (your mistakes come back after 1, 3 and 7 days)
 - **Build** – 5 timed CRUD scenarios with the checker's checklist and saved scores, plus a Setup sheet: first-15-minutes routine, NuGet + connection strings, the full WinForms CRUD form, and 14 common errors with fixes

@@ -104,7 +104,7 @@ export function List({ children }) {
 }
 
 // One tappable row: icon tile, title, description, and a trailing badge or chevron.
-export function Row({ icon, iconTone = 'accent', title, description, trailing, onPress, disabled }) {
+export function Row({ icon, iconTone = 'accent', lead, title, description, trailing, onPress, disabled }) {
   const c = useTheme();
   return (
     <Pressable
@@ -113,7 +113,7 @@ export function Row({ icon, iconTone = 'accent', title, description, trailing, o
       accessibilityRole={onPress ? 'button' : undefined}
       style={({ pressed }) => [st.row, pressed && { backgroundColor: c.sunken }]}
     >
-      {!!icon && <IconTile name={icon} tone={iconTone} />}
+      {lead || (!!icon && <IconTile name={icon} tone={iconTone} />)}
       <View style={{ flex: 1, gap: 2 }}>
         <T v="bodyStrong">{title}</T>
         {!!description && <T v="small" color={c.muted} numberOfLines={2}>{description}</T>}
@@ -121,6 +121,17 @@ export function Row({ icon, iconTone = 'accent', title, description, trailing, o
       {trailing}
       {onPress && <Icon name="chevron-right" size={18} color={c.faint} />}
     </Pressable>
+  );
+}
+
+// Step number in a path; turns into a check when done.
+export function StepTile({ n, done, next }) {
+  const c = useTheme();
+  return (
+    <View style={{ width: 36, height: 36, borderRadius: 18, alignItems: 'center', justifyContent: 'center',
+      backgroundColor: done ? c.good : next ? c.accent : c.sunken }}>
+      {done ? <Icon name="check" size={18} color="#fff" /> : <T v="smallStrong" color={next ? c.onAccent : c.muted}>{n}</T>}
+    </View>
   );
 }
 
