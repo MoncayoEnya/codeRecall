@@ -1,0 +1,35 @@
+{
+  "expo": {
+    "name": "Code Recall",
+    "slug": "code-recall",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "userInterfaceStyle": "automatic",
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.coderecall.app"
+    },
+    "android": {
+      "adaptiveIcon": {
+        "backgroundColor": "#2448D6",
+        "foregroundImage": "./assets/android-icon-foreground.png",
+        "backgroundImage": "./assets/android-icon-background.png",
+        "monochromeImage": "./assets/android-icon-monochrome.png"
+      },
+      "package": "com.coderecall.app",
+      "softwareKeyboardLayoutMode": "resize"
+    },
+    "web": {
+      "favicon": "./assets/favicon.png",
+      "name": "Code Recall",
+      "shortName": "Code Recall",
+      "themeColor": "#2E4FD8",
+      "backgroundColor": "#F5F6F8"
+    },
+    "plugins": [
+      "expo-secure-store",
+      "expo-notifications"
+    ]
+  }
+}
